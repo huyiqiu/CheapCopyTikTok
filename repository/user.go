@@ -10,6 +10,7 @@ import (
 type User struct {
 	Id            int       `gorm:"column:id" json:"id"`
 	Name          string    `gorm:"column:name" json:"name"`
+	Pwd string `gorm:"-" json:"-"`
 	FollowCount   int       `gorm:"column:follow_count" json:"follow_count"`
 	FollowerCount int       `gorm:"column:follower_count" json:"follower_count"`
 	CreateTime    time.Time `gorm:"column:created_time" json:"-"`
@@ -34,12 +35,20 @@ func NewUserDaoInstance() *UserDao {
 	return userDao
 }
 
+// 创建一个新用户
+func (*UserDao)CreateUser(name string, pwd string) {
+	user := User{
+		Name: name,
+		Pwd : pwd,
+		CreateTime: time.Now(),
+	}
+	db.Create(&user)
+}
 
-
-// 实现通过id查询用户
-func (*UserDao) QueryUserById(id int) (*User, error) {
+// 实现通过用户名查询用户
+func (*UserDao) QueryUserByName(name string) (*User, error) {
 	var user *User
-	err := db.Where("id = ?", id).Find(&user).Error
+	err := db.Where("name = ?", name).Find(&user).Error
 	if err == gorm.ErrRecordNotFound {
 		return nil, nil
 	}

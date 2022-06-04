@@ -4,7 +4,6 @@ import (
 	"minitiktok/controller"
 	"minitiktok/repository"
 	"os"
-
 	"github.com/gin-gonic/gin"
 )
 
