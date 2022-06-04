@@ -3,9 +3,11 @@ package main
 import (
 	"minitiktok/controller"
 	"minitiktok/repository"
-	"github.com/gin-gonic/gin"
 	"os"
+
+	"github.com/gin-gonic/gin"
 )
+
 func main() {
 	if err := Init(); err != nil {
 		os.Exit(-1)
