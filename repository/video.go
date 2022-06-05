@@ -42,9 +42,10 @@ func (*VideoDao) QueryVideoList() ([]*Video, error) {
 }
 
 // 发布列表
-// func (*VideoDao) QueryPublishList(userId int) ([]*Video, error) {
-// 	var videos []*Video
-// 	println("query publish list")
-// 	db.Limit(30).Order("videos.created_time desc").Preload("User").Find(&videos)
+func (*VideoDao) QueryPublishList(userId int) ([]*Video, error) {
+	var videos []*Video
+	println("query publish list")
+	db.Order("videos.created_time desc").Where("user_id = ", userId).Preload("User").Find(&videos)
+	return videos, nil
+}
 
-// }

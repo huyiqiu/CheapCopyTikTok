@@ -16,6 +16,8 @@ func main() {
 
 	r.GET("/douyin/feed", controller.Feed)
 
+	r.GET("/douyin/publish/list/", controller.PublishFlow)
+
 	r.POST("/douyin/user/login/", controller.Login)
 
 	r.POST("/douyin/user/register/", controller.Register)

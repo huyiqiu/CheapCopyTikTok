@@ -63,3 +63,18 @@ func (*UserDao) QueryUserByName(name string) (*User, error) {
 	}
 	return user, nil
 }
+
+// 查询用户信息
+func (*UserDao) QueryUserInfo(userId int) (*User, error) {
+	var user *User
+	err := db.Where("id = ?", userId).First(&user).Error
+	if err == gorm.ErrRecordNotFound {
+		println("query null")
+		return nil, nil
+	}
+	if err != nil {
+		utils.Logger.Error("find user by id err:" + err.Error())
+		return nil, err
+	}
+	return user, err
+}
