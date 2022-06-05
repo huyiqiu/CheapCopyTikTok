@@ -8,11 +8,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
+
 type FeedResponce struct {
-	StatusCode int `json:"status_code"`
-	Msg string `json:"status_msg"`
-	NextTime int64 `json:"next_time,omitempty"`
-	VideoList interface{} `json:"video_list"`
+	StatusCode int         `json:"status_code"`
+	Msg        string      `json:"status_msg"`
+	NextTime   int64       `json:"next_time,omitempty"`
+	VideoList  interface{} `json:"video_list"`
 }
 
 func QueryVideoInfo(lastTime string, userToken string) *FeedResponce {
@@ -20,14 +21,14 @@ func QueryVideoInfo(lastTime string, userToken string) *FeedResponce {
 	if err != nil {
 		return &FeedResponce{
 			StatusCode: -1,
-			Msg: err.Error(),
+			Msg:        err.Error(),
 		}
 	}
 	return &FeedResponce{
 		StatusCode: 0,
-		Msg: "success",
-		NextTime: time.Now().Unix(),
-		VideoList: videoInfo,
+		Msg:        "success",
+		NextTime:   time.Now().Unix(),
+		VideoList:  videoInfo,
 	}
 }
 
@@ -36,14 +37,14 @@ func QueryPublishInfo(token string, userId int) *FeedResponce {
 	if err != nil {
 		return &FeedResponce{
 			StatusCode: -1,
-			Msg: err.Error(),
+			Msg:        err.Error(),
 		}
 	}
 	return &FeedResponce{
 		StatusCode: 0,
-		Msg: "success",
-		NextTime: time.Now().Unix(),
-		VideoList: videoInfo,
+		Msg:        "success",
+		NextTime:   time.Now().Unix(),
+		VideoList:  videoInfo,
 	}
 }
 

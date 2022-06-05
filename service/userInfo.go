@@ -5,9 +5,9 @@ import (
 	// "minitiktok/utils"
 )
 
-func GetUserInfo(userId int, userToken string) (*repository.User) {
+func GetUserInfo(userId int, userToken string) *repository.User {
 	userDao := repository.NewUserDaoInstance()
-	user, err := userDao.QueryUserInfo(userId)
+	user, err := userDao.QueryUser(userId)
 	if err != nil {
 		println("query user failed")
 		return nil

@@ -65,7 +65,7 @@ func (*UserDao) QueryUserByName(name string) (*User, error) {
 }
 
 // 查询用户信息
-func (*UserDao) QueryUserInfo(userId int) (*User, error) {
+func (*UserDao) QueryUser(userId int) (*User, error) {
 	var user *User
 	err := db.Where("id = ?", userId).First(&user).Error
 	if err == gorm.ErrRecordNotFound {

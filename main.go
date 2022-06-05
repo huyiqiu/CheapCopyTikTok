@@ -4,6 +4,7 @@ import (
 	"minitiktok/controller"
 	"minitiktok/repository"
 	"os"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,6 +18,8 @@ func main() {
 	r.GET("/douyin/feed", controller.Feed)
 
 	r.GET("/douyin/publish/list/", controller.PublishFlow)
+
+	r.GET("/douyin/user/", controller.UserInfo)
 
 	r.POST("/douyin/user/login/", controller.Login)
 
