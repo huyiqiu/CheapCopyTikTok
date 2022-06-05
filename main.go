@@ -16,6 +16,10 @@ func main() {
 
 	r.GET("/douyin/feed", controller.Feed)
 
+	r.POST("/douyin/user/login/", controller.Login)
+
+	r.POST("/douyin/user/register/", controller.Register)
+
 	err := r.Run()
 	if err != nil {
 		return

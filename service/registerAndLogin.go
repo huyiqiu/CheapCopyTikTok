@@ -5,25 +5,46 @@ import (
 	"minitiktok/utils"
 )
 
-const (
-	NoSuchUser = 1
-	OtherError = 2
+
+const(
+	UserNotFound = 1
+	PasswordWrong = 2
+	UserExist = 3
+	OtherERROR = 4
 )
 
-var userDao = repository.NewUserDaoInstance()
-
-// func Register(username string, pwd string) (code int, id int, token string) {
-
-// }
+func Register(username string, pwd string) (code int, id int, token string) {
+	userDao := repository.NewUserDaoInstance()
+	user, err := userDao.QueryUserByName(username)
+	println("service------",user)
+	if user != nil {
+		println("user != nil")
+		return UserExist, -1, ""
+	}
+	if err != nil {
+		return OtherERROR, -1, ""
+	}
+	code = 0
+	id = userDao.CreateUser(username, pwd)
+	token = utils.GenerateToken(id)
+	return
+}
 
 func Login(username string, pwd string) (code int, id int, token string) {
+	userDao := repository.NewUserDaoInstance()
 	user, err := userDao.QueryUserByName(username)
 	if user == nil {
-		return NoSuchUser, -1, ""
+		return UserNotFound, -1, ""
 	}
 	if err != nil {
 		utils.Logger.Error("something goes wrong when query userInfo")
-		return OtherError, -1, ""
+		return OtherERROR, -1, ""
+	}
+	password := user.Pwd
+	println("???")
+	println(password)
+	if pwd != password {
+		return PasswordWrong, -1, ""
 	}
 	code = 0
 	id = user.Id
