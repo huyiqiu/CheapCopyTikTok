@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"gorm.io/gorm"
+	//"gorm.io/gorm"
 )
 
 type Favorite struct {
@@ -10,7 +10,7 @@ type Favorite struct {
 }
 
 func IsFavorite(userId int, videoId int) bool {
-	var fav *Favorite
-	err := db.Where("user_id = ? and video_id = ?", userId, videoId).First(&fav).Error
-	return err != gorm.ErrRecordNotFound
+	var favs []*Favorite
+	db.Where("user_id = ? and video_id = ?", userId, videoId).Find(&favs)
+	return len(favs) != 0
 }

@@ -45,7 +45,8 @@ func (*VideoDao) QueryVideoList() ([]*Video, error) {
 func (*VideoDao) QueryPublishList(userId int) ([]*Video, error) {
 	var videos []*Video
 	println("query publish list")
-	db.Order("videos.created_time desc").Where("user_id = ", userId).Preload("User").Find(&videos)
+	// 
+	db.Where("user_id = ?", userId).Order("videos.created_time desc").Preload("User").Find(&videos)
 	return videos, nil
 }
 
