@@ -16,9 +16,7 @@ const(
 func Register(username string, pwd string) (code int, id int, token string) {
 	userDao := repository.NewUserDaoInstance()
 	user, err := userDao.QueryUserByName(username)
-	println("service------",user)
 	if user != nil {
-		println("user != nil")
 		return UserExist, -1, ""
 	}
 	if err != nil {
@@ -41,8 +39,6 @@ func Login(username string, pwd string) (code int, id int, token string) {
 		return OtherERROR, -1, ""
 	}
 	password := user.Pwd
-	println("???")
-	println(password)
 	if pwd != password {
 		return PasswordWrong, -1, ""
 	}

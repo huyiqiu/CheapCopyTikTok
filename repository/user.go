@@ -27,6 +27,7 @@ type UserDao struct {
 var userDao *UserDao
 var userOnce sync.Once
 
+// DAO实例
 func NewUserDaoInstance() *UserDao {
 	userOnce.Do(
 		func() {
@@ -60,6 +61,5 @@ func (*UserDao) QueryUserByName(name string) (*User, error) {
 		utils.Logger.Error("find user by id err:" + err.Error())
 		return nil, err
 	}
-	println("there is a record")
 	return user, nil
 }
