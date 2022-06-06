@@ -50,3 +50,14 @@ func (*VideoDao) QueryPublishList(userId int) ([]*Video, error) {
 	return videos, nil
 }
 
+// 创建一个视频记录
+func (*VideoDao) CreateNewVideo(userId int, playUrl string, coverUrl string, title string) {
+	video := Video{
+		UserId: userId,
+		PlayUrl: playUrl,
+		CoverUrl: coverUrl,
+		Title: title,
+		CreateTime: time.Now(),
+	}
+	db.Create(&video)
+}
