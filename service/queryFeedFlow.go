@@ -27,13 +27,14 @@ func QueryFeedFlow(lastTime string, userToken string) ([]*repository.Video, erro
 // 查询发布列表
 func QueryPublishFlow(userId int, userToken string) ([]*repository.Video, error) {
 	videoDao := repository.NewVideoDaoInstance()
-	id := utils.ValidateToken(userToken)
-	videoList, err := videoDao.QueryPublishList(id)
+	videoList, err := videoDao.QueryPublishList(userId)
 	if err != nil {
 		println("publish flow goes run")
 		return nil, err
 	}
-	VideoRelationship(userToken, videoList)
+	if userToken != "null" {
+		VideoRelationship(userToken, videoList)
+	}
 	return videoList, err
 }
 

@@ -32,9 +32,6 @@ func Publish(c *gin.Context) {
 	title := c.PostForm("title")
 	file, _ := c.FormFile("data")
 	data, _ := file.Open()
-	dataInfo, err := ioutil.ReadAll(data)
-	if err != nil {
-		println("something goes wrong..")
-	}
+	dataInfo, _ := ioutil.ReadAll(data)
 	c.JSON(http.StatusOK, PublishVideo(dataInfo, userToken, title))
 }

@@ -59,6 +59,11 @@ func PublishFlow(c *gin.Context) {
 	if err != nil {
 		println("something goes wrong")
 	}
-	userToken := c.Query("token")
+	println("the userid is :",userId)
+	userToken := c.DefaultQuery("token", "null")
+	if len(userToken) == 0 {
+		userToken = "null"
+	}
+	println("the userToken is :", userToken)
 	c.JSON(http.StatusOK, QueryPublishInfo(userToken, userId))
 }
