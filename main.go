@@ -25,6 +25,8 @@ func main() {
 
 	r.POST("/douyin/user/register/", controller.Register)
 
+	r.POST("/douyin/publish/action/", controller.Publish)
+
 	err := r.Run()
 	if err != nil {
 		return

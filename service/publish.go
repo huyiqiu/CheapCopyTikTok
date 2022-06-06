@@ -17,14 +17,14 @@ func DoPublish(data []byte, token string, title string) int {
 	userId := utils.ValidateToken(token)
 	videoDao := repository.NewVideoDaoInstance()
 	// TO DO 截取封面
-	coverUrl := "http://rcmz8xyya.hd-bkt.clouddn.com/test/cover.png"
-	
+	coverUrl := url + "?vframe/jpg/offset/1"
+
 	videoDao.CreateNewVideo(userId, url, coverUrl, title)
 	return 0
 }
 
 func Upload(data []byte) string {
-	domain := "http://rcmz8xyya.hd-bkt.clouddn.com"
+	domain := "http://rcmz8xyya.hd-bkt.clouddn.com/"
 	accessKey := "WGjh0GoD6PCZNmQt5QD80cbkaK77NK1R7LryoD52"
 	secretKey := "i-hBzqxJnOfzGRN0R7DqD5IxIfgPcdexr6apghZe"
 	bucket := "2147483648"
