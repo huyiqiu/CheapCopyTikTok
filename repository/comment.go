@@ -5,17 +5,15 @@ import (
 	"time"
 )
 
-const (
-	MMDD = "01-02"
-)
 
 type Comment struct {
 	Id         int       `gorm:"column:id" json:"id"`
 	VideoId    int       `gorm:"column:video_id" json:"-"`
-	UserId     int       `gorm:"user_id"`
-	User       *User     `json:"user"`
+	UserId     int       `gorm:"user_id" json:"-"`
+	User       User      `json:"user"`
 	Content    string    `gorm:"content" json:"content"`
-	CreateDate time.Time `gorm:"create_date" json:"create_date"`
+	CreateDate time.Time `gorm:"create_date"`
+	MMDD string `json:"create_date"`
 }
 
 type CommentDao struct {
@@ -52,6 +50,7 @@ func (*CommentDao) QueryTheComment(commentId int) (*Comment, error) {
 		println("query failed..")
 		return nil, err
 	}
+	comment.MMDD = comment.CreateDate.Format("01-02")
 	return comment, nil
 }
 
@@ -63,7 +62,7 @@ func (*CommentDao) QueryCommentList(videoId int) ([]*Comment, error) {
 		return nil, err
 	}
 	for v := range comments {
-		comments[v].CreateDate.Format(MMDD)
+		comments[v].MMDD = comments[v].CreateDate.Format("01-02")
 	}
 	return comments, nil
 }

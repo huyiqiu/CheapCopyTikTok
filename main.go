@@ -21,11 +21,15 @@ func main() {
 
 	r.GET("/douyin/user/", controller.UserInfo)
 
+	r.GET("/douyin/comment/list/", controller.CommentList)
+
 	r.POST("/douyin/user/login/", controller.Login)
 
 	r.POST("/douyin/user/register/", controller.Register)
 
 	r.POST("/douyin/publish/action/", controller.Publish)
+
+	r.POST("/douyin/comment/action/", controller.DoComment)
 
 	err := r.Run()
 	if err != nil {
