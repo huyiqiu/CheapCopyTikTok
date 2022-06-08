@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"minitiktok/repository"
 	"minitiktok/utils"
 )
@@ -31,6 +32,7 @@ func Register(username string, pwd string) (code int, id int, token string) {
 func Login(username string, pwd string) (code int, id int, token string) {
 	userDao := repository.NewUserDaoInstance()
 	user, err := userDao.QueryUserByName(username)
+	fmt.Printf("在登录时调用UserDAO->%p\n", userDao)
 	if user == nil {
 		return UserNotFound, -1, ""
 	}
