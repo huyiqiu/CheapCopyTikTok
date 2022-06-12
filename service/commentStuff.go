@@ -12,7 +12,7 @@ func CommentOpt(token string, videoId int, action int, content string, commentId
 		id := commentDao.CreateComment(userId, videoId, content)
 		return commentDao.QueryTheComment(id)
 	}
-	return commentDao.DeleteComment(commentId) // action == 2
+	return commentDao.DeleteComment(commentId, videoId) // action == 2
 }
 
 func QueryCommentList(token string, videoId int) ([]*repository.Comment, error) {

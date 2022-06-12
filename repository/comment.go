@@ -5,7 +5,6 @@ import (
 	"time"
 )
 
-
 type Comment struct {
 	Id         int       `gorm:"column:id" json:"id"`
 	VideoId    int       `gorm:"column:video_id" json:"-"`
@@ -13,7 +12,7 @@ type Comment struct {
 	User       User      `json:"user"`
 	Content    string    `gorm:"content" json:"content"`
 	CreateDate time.Time `gorm:"create_date"`
-	MMDD string `json:"create_date"`
+	MMDD       string    `json:"create_date"`
 }
 
 type CommentDao struct {
@@ -37,8 +36,11 @@ func (*CommentDao) CreateComment(userId int, videoId int, content string) int {
 		Content:    content,
 		CreateDate: time.Now(),
 	}
-
+	video := &Video{
+		Id: videoId,
+	}
 	db.Create(&comment)
+	db.Model(&video).Update("comments_count", "comments_count + 1")
 	commentId := comment.Id
 	return commentId
 }
@@ -67,8 +69,12 @@ func (*CommentDao) QueryCommentList(videoId int) ([]*Comment, error) {
 	return comments, nil
 }
 
-func (*CommentDao) DeleteComment(commentId int) (*Comment, error) {
+func (*CommentDao) DeleteComment(commentId int, videoId int) (*Comment, error) {
 	err := db.Delete(&Comment{}, commentId).Error
+	video := &Video{
+		Id: videoId,
+	}
+	db.Model(&video).Update("comments_count", "comments_count - 1")
 	if err != nil {
 		println("delete comment failed")
 		return nil, err

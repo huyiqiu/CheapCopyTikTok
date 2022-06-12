@@ -23,6 +23,8 @@ func main() {
 
 	r.GET("/douyin/comment/list/", controller.CommentList)
 
+	r.GET("/douyin/favorite/list/", controller.FavoriteList)
+
 	r.POST("/douyin/user/login/", controller.Login)
 
 	r.POST("/douyin/user/register/", controller.Register)
@@ -30,6 +32,8 @@ func main() {
 	r.POST("/douyin/publish/action/", controller.Publish)
 
 	r.POST("/douyin/comment/action/", controller.DoComment)
+
+	r.POST("/douyin/favorite/action/", controller.Favorite)
 
 	err := r.Run()
 	if err != nil {
