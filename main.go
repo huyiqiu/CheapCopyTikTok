@@ -35,6 +35,8 @@ func main() {
 
 	r.POST("/douyin/favorite/action/", controller.Favorite)
 
+	r.POST("/douyin/relation/action/", controller.Follow)
+
 	err := r.Run()
 	if err != nil {
 		return

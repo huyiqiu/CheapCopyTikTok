@@ -3,6 +3,8 @@ package repository
 import (
 	"sync"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type Comment struct {
@@ -40,7 +42,7 @@ func (*CommentDao) CreateComment(userId int, videoId int, content string) int {
 		Id: videoId,
 	}
 	db.Create(&comment)
-	db.Model(&video).Update("comments_count", "comments_count + 1")
+	db.Model(&video).UpdateColumn("comments_count", gorm.Expr("comments_count + ?", 1))
 	commentId := comment.Id
 	return commentId
 }
@@ -74,7 +76,7 @@ func (*CommentDao) DeleteComment(commentId int, videoId int) (*Comment, error) {
 	video := &Video{
 		Id: videoId,
 	}
-	db.Model(&video).Update("comments_count", "comments_count - 1")
+	db.Model(&video).UpdateColumn("comments_count", gorm.Expr("comments_count - ?", 1))
 	if err != nil {
 		println("delete comment failed")
 		return nil, err

@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	"github.com/go-redis/redis"
+	"gorm.io/gorm"
 )
 
 //"gorm.io/gorm"
@@ -42,7 +43,7 @@ func (*FavDao) CreateLike(userId int, videoId int) error{
 			Id: videoId,
 			UserId: userId,
 		}
-		db.Model(&video).Update("favorite_count", "favorite_count + 1")
+		db.Model(&video).UpdateColumn("favorite_count", gorm.Expr("favorite_count + ?", 1))
 	}()
 	client.Set(relationship, 1, 0)
 	favCnt := "LikeCntOfVlog:" + strconv.Itoa(videoId)
@@ -72,12 +73,12 @@ func (*FavDao) CancelLike(userId int, videoId int) error {
 			UserId: userId,
 			VideoId: videoId,
 		}
-		db.Delete(&favorite)
+		db.Where("user_id = ? and video_id = ?", userId, videoId).Delete(&favorite)
 		video := &Video{
 			Id: videoId,
 			UserId: userId,
 		}
-		db.Model(&video).Update("favorite_count", "favorite_count - 1")
+		db.Model(&video).UpdateColumn("favorite_count", gorm.Expr("favorite_count - ?", 1))
 	}()
 	return nil
 }
@@ -99,6 +100,9 @@ func IsFavorite(userId int, videoId int) bool {
 
 func (*FavDao) QueryFavList(userId int) ([]*Video, error){
 	var videos []*Video
-	db.Raw("select * from videos v left join favorites f where f.user_id = ? on f.video_id = v.id ORDER BY v.created_time desc", userId).Scan(&videos)
+	db.Raw("select * from videos as v left join favorites as f on f.video_id = v.id where f.user_id = ? ORDER BY v.created_time desc", userId).Scan(&videos).Preload("User")
+	for v := range(videos) {
+		videos[v].IsFavorite = true
+	}
 	return videos, nil
 }
