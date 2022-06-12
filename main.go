@@ -25,6 +25,10 @@ func main() {
 
 	r.GET("/douyin/favorite/list/", controller.FavoriteList)
 
+	r.GET("/douyin/relation/follow/list/", controller.FollowList)
+
+	r.GET("/douyin/relation/follower/list/", controller.FansList)
+
 	r.POST("/douyin/user/login/", controller.Login)
 
 	r.POST("/douyin/user/register/", controller.Register)

@@ -67,7 +67,7 @@ func (*FollowDao) CancelFollow(followerId int, userId int) error {
 
 func (*FollowDao) QueryFollowList(userId int) ([]*User, error) {
 	var users []*User
-	db.Raw("select * from users as u left join follows as f on u.id = f.follower_id where u.id = ?", userId).Scan(&users)
+	db.Raw("select u.id as id, u.name as name, u.follow_count as follow_count, u.follower_count as follower_count from follows as f left join users as u on u.id = f.user_id where f.follower_id = ?", userId).Scan(&users)
 	// isFollow
 	for v := range(users){
 		users[v].IsFollow = true
@@ -77,7 +77,7 @@ func (*FollowDao) QueryFollowList(userId int) ([]*User, error) {
 
 func (*FollowDao) QueryFansList(userId int) ([]*User, error) {
 	var users []*User
-	db.Raw("select * from users as u left join follows as f on u.id = f.user_id where u.id = ?", userId).Scan(&users)
+	db.Raw("select u.id as id, u.name as name, u.follow_count as follow_count, u.follower_count as follower_count from follows as f left join users as u on u.id = f.follower_id where f.user_id = ?", userId).Scan(&users)
 	// isFollow
 	for v := range(users){
 		users[v].IsFollow = IsFollow(userId, users[v].Id)

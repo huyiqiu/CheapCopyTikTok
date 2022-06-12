@@ -100,8 +100,12 @@ func IsFavorite(userId int, videoId int) bool {
 
 func (*FavDao) QueryFavList(userId int) ([]*Video, error){
 	var videos []*Video
-	db.Raw("select * from videos as v left join favorites as f on f.video_id = v.id where f.user_id = ? ORDER BY v.created_time desc", userId).Scan(&videos).Preload("User")
+	db.Raw("select v.id as id, v.user_id as user_id, v.play_url as play_url, v.cover_url as cover_url, v.favorite_count as favorite_count, v.comments_count as comments_count, v.title as title from videos as v left join favorites as f on f.video_id = v.id where f.user_id = ?", userId).Scan(&videos)
 	for v := range(videos) {
+		userId := videos[v].UserId
+		var user *User
+		db.First(&user, userId)
+		videos[v].User = *user
 		videos[v].IsFavorite = true
 	}
 	return videos, nil
