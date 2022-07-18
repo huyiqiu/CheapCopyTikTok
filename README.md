@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 极简抖音项目
 
 ## 项目简介
@@ -17,3 +18,7 @@ service层负责处理业务逻辑
 ![image](img/service.png)      
 repository层负责数据库交互    
 ![image](img/rep.png) 
+=======
+# minitiktok
+this is a simple Tiktok app
+>>>>>>> 42ed5dcc955aeaf0e62675cbe2b4d57c17be755f
