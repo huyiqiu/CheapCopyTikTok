@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"minitiktok/repository"
 	// "minitiktok/utils"
 )
@@ -11,7 +10,6 @@ import (
 func GetUserInfo(userId int, userToken string) *repository.User {
 	userDao := repository.NewUserDaoInstance()
 	user, err := userDao.QueryUser(userId)
-	fmt.Printf("在查看用户信息时调用UserDAO->%p\n", userDao)
 	if err != nil {
 		println("query user failed")
 		return nil

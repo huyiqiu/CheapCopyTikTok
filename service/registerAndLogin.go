@@ -37,7 +37,7 @@ func Login(username string, pwd string) (code int, id int, token string) {
 		return UserNotFound, -1, ""
 	}
 	if err != nil {
-		// utils.Logger.Error("something goes wrong when query userInfo")
+		utils.Logger.Error("something goes wrong when query userInfo")
 		return OtherERROR, -1, ""
 	}
 	password := user.Pwd

@@ -16,9 +16,7 @@ func CommentOpt(token string, videoId int, action int, content string, commentId
 }
 
 func QueryCommentList(token string, videoId int) ([]*repository.Comment, error) {
-	// TODO: 判断isFollow
-	// userId := utils.ValidateToken(token)
-	// 
+
 	commentDao := repository.NewCommentDaoInstance()
 	return commentDao.QueryCommentList(videoId)
 }

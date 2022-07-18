@@ -45,9 +45,8 @@ func VideoRelationship(userToken string, videoList []*repository.Video) {
 		userId := utils.ValidateToken(userToken)
 		videoId := videoList[v].Id
 		videoList[v].IsFavorite = repository.IsFavorite(userId, videoId)
-		// TO DO 判断是否关注该用户
-		// authorId := videoList[v].UserId
-		// isfollow := IsFollow(userId, authorId)
-		// videoList[v].User.IsFollow = isfollow
+		authorId := videoList[v].UserId
+		isfollow := repository.IsFollow(userId, authorId)
+		videoList[v].User.IsFollow = isfollow
 	}
 }

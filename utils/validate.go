@@ -18,7 +18,7 @@ func GenerateToken(userId int) string {
 	claims := MyCustomClaims{
 		userId,
 		jwt.StandardClaims{
-			ExpiresAt: time.Now().Unix() + 86400, // 24h
+			ExpiresAt: time.Now().Unix() + 86400, 
 			Issuer:    "login",
 		},
 	}
@@ -31,11 +31,9 @@ func GenerateToken(userId int) string {
 	return ss // 生成的加密字符串
 }
 
-<<<<<<< HEAD
+
 // 验证token的有效性
-=======
-// TODO: 不仅要解析token，还要验证token的有效性
->>>>>>> 42ed5dcc955aeaf0e62675cbe2b4d57c17be755f
+
 func ValidateToken(tokenString string) int {
 	token, err := jwt.ParseWithClaims(tokenString, &MyCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte("ItWillBeDone"), nil
