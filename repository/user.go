@@ -2,7 +2,7 @@ package repository
 
 import (
 	"gorm.io/gorm"
-	"minitiktok/utils"
+	// "minitiktok/utils"
 	"sync"
 	"time"
 )
@@ -58,7 +58,7 @@ func (*UserDao) QueryUserByName(name string) (*User, error) {
 		return nil, nil
 	}
 	if err != nil {
-		utils.Logger.Error("find user by id err:" + err.Error())
+		// utils.Logger.Error("find user by id err:" + err.Error())
 		return nil, err
 	}
 	return user, nil
@@ -73,7 +73,7 @@ func (*UserDao) QueryUser(userId int) (*User, error) {
 		return nil, nil
 	}
 	if err != nil {
-		utils.Logger.Error("find user by id err:" + err.Error())
+		// utils.Logger.Error("find user by id err:" + err.Error())
 		return nil, err
 	}
 	return user, err

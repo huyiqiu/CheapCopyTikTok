@@ -15,7 +15,7 @@ func Init() error {
 	dsn := "root:123456@tcp(127.0.0.1:3306)/minitiktok?charset=utf8mb4&parseTime=True&loc=Local"
   	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	client = redis.NewClient(&redis.Options{
-		Addr: "47.113.185.142:6379", //远程，上线后应当切换到内网ip
+		Addr: "47.113.185.142:6379", 
 		Password: "147998",
 		DB: 0,
 	})

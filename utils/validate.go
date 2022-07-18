@@ -31,7 +31,7 @@ func GenerateToken(userId int) string {
 	return ss // 生成的加密字符串
 }
 
-// TODO: 不仅要解析token，还要验证token的有效性
+// 验证token的有效性
 func ValidateToken(tokenString string) int {
 	token, err := jwt.ParseWithClaims(tokenString, &MyCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte("ItWillBeDone"), nil
