@@ -16,7 +16,7 @@ func Init() error {
   	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	client = redis.NewClient(&redis.Options{
 		Addr: "47.113.185.142:", //远程，上线后应当切换到内网ip
-		Password: "",
+		Password: "147998",
 		DB: 0,
 	})
 	return err
