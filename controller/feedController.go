@@ -2,6 +2,8 @@ package controller
 
 import (
 	"minitiktok/service"
+	"minitiktok/utils"
+	"minitiktok/utils/logger"
 	"net/http"
 	"strconv"
 	"time"
@@ -51,19 +53,35 @@ func QueryPublishInfo(token string, userId int) *FeedResponce {
 func Feed(c *gin.Context) {
 	lastTime := c.DefaultQuery("latest_time", strconv.FormatInt(time.Now().Unix(), 10))
 	userToken := c.DefaultQuery("token", "null")
+	if userToken != "null"{
+		_, err := utils.ValidateToken(userToken)
+		if err != nil {
+			c.JSON(http.StatusOK, &ErrorResponce{
+				StatusCode: 1,
+				StatusMsg:  "token过期,请重新登录",
+			})
+		}
+	}
 	c.JSON(http.StatusOK, QueryVideoInfo(lastTime, userToken))
 }
 
 func PublishFlow(c *gin.Context) {
 	userId, err := strconv.Atoi(c.Query("user_id"))
 	if err != nil {
-		println("something goes wrong")
+		logger.Warn(err)
 	}
-	println("the userid is :",userId)
 	userToken := c.DefaultQuery("token", "null")
 	if len(userToken) == 0 {
 		userToken = "null"
 	}
-	println("the userToken is :", userToken)
+	if userToken != "null"{
+		_, err := utils.ValidateToken(userToken)
+		if err != nil {
+			c.JSON(http.StatusOK, &ErrorResponce{
+				StatusCode: 1,
+				StatusMsg:  "token过期,请重新登录",
+			})
+		}
+	}
 	c.JSON(http.StatusOK, QueryPublishInfo(userToken, userId))
 }

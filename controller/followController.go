@@ -2,6 +2,7 @@ package controller
 
 import (
 	"minitiktok/service"
+	"minitiktok/utils"
 	"net/http"
 	"strconv"
 
@@ -65,6 +66,13 @@ func FansListInfo(userId int, token string) *FollowListResponce {
 
 func Follow(c *gin.Context) {
 	token := c.Query("token")
+	_, err := utils.ValidateToken(token)
+	if err != nil {
+		c.JSON(http.StatusOK, &ErrorResponce{
+			StatusCode: 1,
+			StatusMsg:  "token过期,请重新登录",
+		})
+	}
 	userId, _ := strconv.Atoi(c.Query("to_user_id"))
 	action, _ := strconv.Atoi(c.Query("action_type"))
 	c.JSON(http.StatusOK, FollowInfo(userId, token, action))
@@ -72,12 +80,26 @@ func Follow(c *gin.Context) {
 
 func FollowList(c *gin.Context) {
 	token := c.Query("token")
+	_, err := utils.ValidateToken(token)
+	if err != nil {
+		c.JSON(http.StatusOK, &ErrorResponce{
+			StatusCode: 1,
+			StatusMsg:  "token过期,请重新登录",
+		})
+	}
 	userId, _ := strconv.Atoi(c.Query("user_id"))
 	c.JSON(http.StatusOK, FollowListInfo(userId, token))
 }
 
 func FansList(c *gin.Context) {
 	token := c.Query("token")
+	_, err := utils.ValidateToken(token)
+	if err != nil {
+		c.JSON(http.StatusOK, &ErrorResponce{
+			StatusCode: 1,
+			StatusMsg:  "token过期,请重新登录",
+		})
+	}
 	userId, _ := strconv.Atoi(c.Query("user_id"))
 	c.JSON(http.StatusOK, FansListInfo(userId, token))
 }

@@ -14,9 +14,9 @@ import (
 
 func DoPublish(data []byte, token string, title string) int {
 	url := Upload(data)
-	userId := utils.ValidateToken(token)
+	userId, _ := utils.ValidateToken(token)
 	videoDao := repository.NewVideoDaoInstance()
-	// TO DO 截取封面
+	//截取封面
 	coverUrl := url + "?vframe/jpg/offset/1"
 
 	videoDao.CreateNewVideo(userId, url, coverUrl, title)
@@ -27,7 +27,7 @@ func Upload(data []byte) string {
 	domain := "http://rcmz8xyya.hd-bkt.clouddn.com/"
 	accessKey := "WGjh0GoD6PCZNmQt5QD80cbkaK77NK1R7LryoD52"
 	secretKey := "i-hBzqxJnOfzGRN0R7DqD5IxIfgPcdexr6apghZe"
-	bucket := "2147483648"
+	bucket := "2147483647"
 
 	// 使用 returnBody 自定义回复格式
 	putPolicy := storage.PutPolicy{

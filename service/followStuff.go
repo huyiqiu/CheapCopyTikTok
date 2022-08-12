@@ -6,7 +6,7 @@ import (
 )
 
 func FollowOp(token string, userId int, action int) error {
-	followerId := utils.ValidateToken(token)
+	followerId, _ := utils.ValidateToken(token)
 	followDao := repository.NewFollowDaoInstance()
 	if action == 1 {
 		err := followDao.CreateFollow(followerId, userId)

@@ -2,8 +2,10 @@ package service
 
 import (
 	//"fmt"
+	"fmt"
 	"minitiktok/repository"
 	"minitiktok/utils"
+	"minitiktok/utils/logger"
 )
 
 
@@ -14,7 +16,7 @@ func QueryFeedFlow(lastTime string, userToken string) ([]*repository.Video, erro
 		println("feed flow goes run")
 		return nil, err
 	}
-
+	logger.Info(fmt.Sprintf("query feed from %s", userToken))
 	// TO DO 根据token验证用户信息
 	if userToken != "null" {
 		VideoRelationship(userToken, videoList)
@@ -42,7 +44,7 @@ func QueryPublishFlow(userId int, userToken string) ([]*repository.Video, error)
 func VideoRelationship(userToken string, videoList []*repository.Video) {
 	for v := range(videoList) {
 		// 判断该视频是否被登录用户点赞
-		userId := utils.ValidateToken(userToken)
+		userId, _ := utils.ValidateToken(userToken)
 		videoId := videoList[v].Id
 		videoList[v].IsFavorite = repository.IsFavorite(userId, videoId)
 		authorId := videoList[v].UserId

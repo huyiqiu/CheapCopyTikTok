@@ -2,6 +2,7 @@ package controller
 
 import (
 	"minitiktok/service"
+	"minitiktok/utils"
 	"net/http"
 	"strconv"
 
@@ -18,6 +19,7 @@ type FavListResponce struct {
 	Msg        string      `json:"status_msg"`
 	VideoList  interface{} `json:"video_list"`
 }
+
 
 func DoFavorite(token string, videoId int, action int) *FavoriteOpResponce {
 	err := service.FavoriteOperation(token, videoId, action)
@@ -50,6 +52,13 @@ func FavListInfo(userId int, token string) *FavListResponce {
 
 func Favorite(c *gin.Context) {
 	token := c.Query("token")
+	_, err := utils.ValidateToken(token)
+	if err != nil {
+		c.JSON(http.StatusOK, &ErrorResponce{
+			StatusCode: 1,
+			StatusMsg:  "token过期,请重新登录",
+		})
+	}
 	videoId, err := strconv.Atoi(c.Query("video_id"))
 	if err != nil {
 		println("favController goes wrong..")
@@ -63,6 +72,13 @@ func Favorite(c *gin.Context) {
 
 func FavoriteList(c *gin.Context) {
 	token := c.Query("token")
+	_, err := utils.ValidateToken(token)
+	if err != nil {
+		c.JSON(http.StatusOK, &ErrorResponce{
+			StatusCode: 1,
+			StatusMsg:  "token过期,请重新登录",
+		})
+	}
 	userId, err := strconv.Atoi(c.Query("user_id"))
 	if err != nil {
 		println("favController goes wrong..")

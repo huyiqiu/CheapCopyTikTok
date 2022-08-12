@@ -2,6 +2,7 @@ package controller
 
 import (
 	"minitiktok/service"
+	"minitiktok/utils"
 	"net/http"
 	"strconv"
 
@@ -35,5 +36,12 @@ func UserInfo(c *gin.Context) {
 		println("something goes wrong")
 	}
 	userToken := c.Query("token")
+	_, err2 := utils.ValidateToken(userToken)
+	if err2 != nil {
+		c.JSON(http.StatusOK, &ErrorResponce{
+			StatusCode: 1,
+			StatusMsg:  "token过期,请重新登录",
+		})
+	}
 	c.JSON(http.StatusOK, QueryUserInfo(userId, userToken))
 }

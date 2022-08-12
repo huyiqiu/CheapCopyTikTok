@@ -3,6 +3,7 @@ package controller
 import (
 	"io/ioutil"
 	"minitiktok/service"
+	"minitiktok/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -29,6 +30,13 @@ func PublishVideo(data []byte, token string, title string) *PublishResponce {
 
 func Publish(c *gin.Context) {
 	userToken := c.PostForm("token")
+	_, err := utils.ValidateToken(userToken)
+	if err != nil {
+		c.JSON(http.StatusOK, &ErrorResponce{
+			StatusCode: 1,
+			StatusMsg:  "token过期,请重新登录",
+		})
+	}
 	title := c.PostForm("title")
 	file, _ := c.FormFile("data")
 	data, _ := file.Open()

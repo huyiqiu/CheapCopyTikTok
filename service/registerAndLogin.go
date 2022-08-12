@@ -16,6 +16,7 @@ const(
 )
 
 func Register(username string, pwd string) (code int, id int, token string) {
+	//TODO: md5 + salt
 	userDao := repository.NewUserDaoInstance()
 	user, err := userDao.QueryUserByName(username)
 	if user != nil {

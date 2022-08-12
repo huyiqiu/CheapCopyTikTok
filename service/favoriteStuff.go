@@ -7,7 +7,7 @@ import (
 
 func FavoriteOperation(token string, videoId int, action int) error {
 	favDao := repository.NewFavDaoInstance()
-	userId := utils.ValidateToken(token)
+	userId, _ := utils.ValidateToken(token)
 	if action == 1 {
 		err := favDao.CreateLike(userId, videoId)
 		if err != nil {

@@ -2,7 +2,9 @@ package utils
 
 import (
 	"fmt"
+	"minitiktok/utils/logger"
 	"time"
+
 	"github.com/golang-jwt/jwt"
 )
 
@@ -18,7 +20,7 @@ func GenerateToken(userId int) string {
 	claims := MyCustomClaims{
 		userId,
 		jwt.StandardClaims{
-			ExpiresAt: time.Now().Unix() + 86400, 
+			ExpiresAt: time.Now().Unix() + 1000, //过期时间
 			Issuer:    "login",
 		},
 	}
@@ -34,7 +36,7 @@ func GenerateToken(userId int) string {
 
 // 验证token的有效性
 
-func ValidateToken(tokenString string) int {
+func ValidateToken(tokenString string) (int , error){
 	token, err := jwt.ParseWithClaims(tokenString, &MyCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte("ItWillBeDone"), nil
 	})
@@ -44,8 +46,10 @@ func ValidateToken(tokenString string) int {
 	if claims, ok := token.Claims.(*MyCustomClaims); ok && token.Valid {
 		userId = claims.UserId
 	} else {
-		fmt.Println(err)
+		logger.Error(fmt.Sprintf("token过期:%s",tokenString))
+		// TODO: 设置token过期逻辑
+		return 0, err
 	}
 
-	return userId
+	return userId, nil
 }

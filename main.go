@@ -3,6 +3,7 @@ package main
 import (
 	"minitiktok/controller"
 	"minitiktok/repository"
+	"minitiktok/utils/logger"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -51,5 +52,11 @@ func Init() error {
 	if err := repository.Init(); err != nil {
 		return err
 	}
+	logger.Setup(&logger.Settings{
+		Path: "logs",
+		Name: "redisgo",
+		Ext: "log",
+		TimeFormat: "2006-01-02",
+	})
 	return nil
 }
